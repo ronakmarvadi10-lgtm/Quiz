@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <h3 id="q"></h3>
+  <div id="opt"></div>
+  <p id="timer"></p>
+  <button onclick="next()">Next</button>
+
+  <script>
+    let quiz = [
+      {
+        q: "0+10?",
+
+        o: ["10", "4", "5"],
+        a: "10"
+      },
+      {
+        q: "Who is the national animal?",
+        o: ["Tiger", "Horse", "Dog"],
+        a: "Tiger"
+      }
+
+    ];
+
+    let i = 0, score = 0, time = 5, t;
+
+    function load() {
+      clearInterval(t);
+      time = 50;
+      timer.innerText = "Time: " + time;
+
+      q.innerText = quiz[i].q;
+      opt.innerHTML = "";
+
+      quiz[i].o.forEach(x => {
+        opt.innerHTML += `<input type="radio" name="o" value="${x}">${x}<br>`;
+      });
+
+      t = setInterval(() => {
+        time--;
+        timer.innerText = "Time: " + time;
+      }, 1000);
+    }
+
+    function next() {
+      clearInterval(t);
+      let s = document.querySelector('input[name="o"]:checked');
+      if (s && s.value == quiz[i].a) score++;
+
+      i++;
+      if (i < quiz.length) load();
+      else document.body.innerHTML = "Score: " + score;
+    }
+    load();
+  </script>
+
+</body>
+
+</html>
